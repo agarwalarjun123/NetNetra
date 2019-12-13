@@ -16,8 +16,8 @@ type deserializedPacket struct {
 	ttl           uint8
 	srcIP         string
 	dstIP         string
-	dnsType       uint64
-	dnsRespCode   uint8
+	dnsType       string
+	dnsRespCode   string
 	dnsContent    string
 }
 
@@ -26,20 +26,20 @@ func deserializePacket(decodedpacket *DecodedPacket) *deserializedPacket {
 
 	deserializedpacket := deserializedPacket{
 
-		Payload:     string(decodedpacket.Payload),
+		Payload:     decodedpacket.Payload.String(),
 		FlowHash:    decodedpacket.FlowHash,
 		IPv4Length:  decodedpacket.ipv4.Length,
 		SrcPort:     uint32(decodedpacket.TCP.SrcPort),
 		DstPort:     uint32(decodedpacket.TCP.DstPort),
-		SrcMAC:      string(decodedpacket.eth.SrcMAC),
-		DstMAC:      string(decodedpacket.eth.DstMAC),
+		SrcMAC:      decodedpacket.eth.SrcMAC.String(),
+		DstMAC:      decodedpacket.eth.DstMAC.String(),
 		ttl:         decodedpacket.ipv4.TTL,
-		srcIP:       string(decodedpacket.ipv4.SrcIP),
-		dstIP:       string(decodedpacket.ipv4.DstIP),
-		dnsType:     uint64(decodedpacket.DNS.LayerType()),
-		dnsRespCode: uint8(decodedpacket.DNS.ResponseCode),
+		srcIP:       decodedpacket.ipv4.SrcIP.String(),
+		dstIP:       decodedpacket.ipv4.DstIP.String(),
+		dnsType:     decodedpacket.DNS.LayerType().String(),
+		dnsRespCode: decodedpacket.DNS.ResponseCode.String(),
 		dnsContent:  string(decodedpacket.DNS.Contents),
 	}
-	fmt.Printf("%#v", deserializedpacket)
+	fmt.Printf("%+v", deserializedpacket)
 	return &deserializedpacket
 }

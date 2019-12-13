@@ -1,7 +1,7 @@
 package main
 
-// converts to json and send data to elastic
-//Refer https://github.com/dvas0004/GolangSimpleDnsSniffer
+// // converts to json and send data to elastic
+// Refer https://github.com/dvas0004/GolangSimpleDnsSniffer
 // ToDo: Use WaitGroups
 // func sendToElastic(data deserializedPacket, wg *sync.WaitGroup) {
 // 	defer wg.Done()
