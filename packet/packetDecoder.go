@@ -2,10 +2,13 @@ package packet
 
 import (
 	"log"
+	"sync"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
+
+var wg *sync.WaitGroup
 
 // DecodedPacket holds necessary information extracted from packet
 type DecodedPacket struct {
@@ -27,7 +30,7 @@ type DecodedPacket struct {
 	Parser *gopacket.DecodingLayerParser
 }
 
-func createDecodedPacket() *DecodedPacket {
+func CreateDecodedPacket() *DecodedPacket {
 	decodedPacket := &DecodedPacket{}
 
 	decodedPacket.Parser = gopacket.NewDecodingLayerParser(layers.LayerTypeEthernet)
@@ -42,9 +45,11 @@ func createDecodedPacket() *DecodedPacket {
 	return decodedPacket
 }
 
-// This function should decode packets and create a DecodedPacket Object with necessary decoded layers
+// This function should decode packets and create a DecodedPacket Object with necessary decoded layers and Implement WaitGroup
 func HandlePacket(packet gopacket.Packet) {
-	decodedPacket := createDecodedPacket()
+	wg.Add(1)
+	defer wg.Done()
+	decodedPacket := CreateDecodedPacket()
 
 	err := decodedPacket.Parser.DecodeLayers(packet.Data(), &decodedPacket.decodedLayers)
 	if err != nil {
