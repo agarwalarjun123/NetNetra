@@ -8,7 +8,7 @@ import (
 	"github.com/google/gopacket/layers"
 )
 
-var wg *sync.WaitGroup
+var wg sync.WaitGroup
 
 // DecodedPacket holds necessary information extracted from packet
 type DecodedPacket struct {
@@ -45,7 +45,7 @@ func CreateDecodedPacket() *DecodedPacket {
 	return decodedPacket
 }
 
-// This function should decode packets and create a DecodedPacket Object with necessary decoded layers and Implement WaitGroup
+// This function should decode packets and create a DecodedPacket Object with necessary decoded layers concurrently
 func HandlePacket(packet gopacket.Packet) {
 	wg.Add(1)
 	defer wg.Done()
@@ -70,6 +70,7 @@ func HandlePacket(packet gopacket.Packet) {
 			decodedPacket.FlowHash = hashCombine(decodedPacket.NetFlow.FastHash(), decodedPacket.TCP.TransportFlow().FastHash())
 		}
 	}
+	deserializePacket(decodedPacket)
 }
 
 // based on boost::hash_combine
