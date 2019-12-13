@@ -1,4 +1,4 @@
-package main
+package packet
 
 import (
 	"log"
@@ -43,7 +43,7 @@ func createDecodedPacket() *DecodedPacket {
 }
 
 // This function should decode packets and create a DecodedPacket Object with necessary decoded layers
-func handlePacket(packet gopacket.Packet) {
+func HandlePacket(packet gopacket.Packet) {
 	decodedPacket := createDecodedPacket()
 
 	err := decodedPacket.Parser.DecodeLayers(packet.Data(), &decodedPacket.decodedLayers)

@@ -1,4 +1,4 @@
-package main
+package packet
 
 // deserializePacket Will contain parameters to index on elasticsearch
 type deserializedPacket struct {

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/agarwalarjun123/NetNetra/packet"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
 )
@@ -63,7 +64,7 @@ func main() {
 	defer handle.Close()
 
 	src := gopacket.NewPacketSource(handle, handle.LinkType())
-	for packet := range src.Packets() {
-		go handlePacket(packet)
+	for p := range src.Packets() {
+		go packet.HandlePacket(p)
 	}
 }
